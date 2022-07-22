@@ -24,10 +24,13 @@ namespace LeagueApp
     }
     public partial class Window1 : Window
     {
-        //Change the string name here to get the latest version, the API is updated manually so sometimes the newest version may not be available yet
-        public string Version = "12.13.1";
+        //Change the string name here to get the latest version, the API is updated manually so sometimes the newest version may not be available yet,
+        //there's no guarantee that all versions will work
 
-        public string ChampionName;
+        public string version = "12.13.1";
+
+        public string completeChampion;
+        public string championName;
 
         public string ImageUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
         public string GuideUrl = "https://www.mobafire.com/league-of-legends/champion/";
@@ -39,9 +42,9 @@ namespace LeagueApp
         public string incorrectLore;
         public string correctLore;
 
-        public string TagsString;
+        public string tagsString;
 
-        public string TitleString;
+        public string titleString;
 
         public Window1()
         {            
@@ -53,9 +56,20 @@ namespace LeagueApp
 
         private void Link_Click(object sender, RoutedEventArgs e)
         {
-            //Every link is specific to ChampionName input
-            ChampionName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
-            Process.Start(new ProcessStartInfo(GuideUrl + ChampionName) { UseShellExecute = true });
+            completeChampion = ((MainWindow)Application.Current.MainWindow).userChampionInput;
+
+            //All links are specific to ChampionName except strings containing " " as the url doesn't autocomplete when accessed
+
+            if (completeChampion.Contains(" "))
+            {
+                Process.Start(new ProcessStartInfo("https://www.mobafire.com/") { UseShellExecute = true });
+            }
+            else
+            {
+                championName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
+                Process.Start(new ProcessStartInfo(GuideUrl + championName) { UseShellExecute = true });
+            }
+
         }
 
 
@@ -63,11 +77,12 @@ namespace LeagueApp
         {
             //The get request for the json specific to ChampionName
 
-            ChampionName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
-           
+            championName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
+            completeChampion = ((MainWindow)Application.Current.MainWindow).userChampionInput;
+
             string apiResponseAsJsonString = String.Empty;
 
-            string url = "http://ddragon.leagueoflegends.com/cdn/"+Version+"/data/en_US/champion/" + ChampionName + ".json";
+            string url = "http://ddragon.leagueoflegends.com/cdn/"+ version +"/data/en_US/champion/" + championName + ".json";
 
             var methodType = Method.Get;
 
@@ -83,43 +98,43 @@ namespace LeagueApp
 
                 //To use the same object for every champion ChampionName is set to just "champion"
                 fixString = apiResponseAsJsonString;
-                var result = fixString.Replace(ChampionName, "Champion");
+                var result = fixString.Replace(championName, "Champion");
 
                 ChampionObject.Root jsonIntoObject = JsonConvert.DeserializeObject<ChampionObject.Root>(result);
 
                 //Now setting all the variables
                 //MonkeyKing case
-                if(ChampionName == "MonkeyKing")
+                if(championName == "MonkeyKing")
                 {
-                    ChampionName = "Wukong";
+                    championName = "Wukong";
                 }
-                //Setting "Champion" back to the ChampionName
+                //Setting "Cvehampion" back to the ChampionName
                 incorrectLore = jsonIntoObject.data.champion.lore;
-                correctLore = incorrectLore.Replace("Champion", ChampionName);
+                correctLore = incorrectLore.Replace("Champion", completeChampion);
 
                 //Some tags have 2 elements so try catch for this 
-                TagsString = jsonIntoObject.data.champion.tags[0];
+                tagsString = jsonIntoObject.data.champion.tags[0];
                 try
                 {
-                    TagsString = jsonIntoObject.data.champion.tags[0] + " - " + jsonIntoObject.data.champion.tags[1];
+                    tagsString = jsonIntoObject.data.champion.tags[0] + " - " + jsonIntoObject.data.champion.tags[1];
                 }
                 catch (Exception ex)
                 {
 
                 }
-               
+
                 //The function adds a space between every char purely for aesthetics
-                ChampionName = string.Join<char>(" ", ChampionName);
-                Champion.Text = ChampionName.ToUpper();
+                completeChampion = string.Join<char>(" ", completeChampion);
+                Champion.Text = completeChampion.ToUpper();
           
                                
-                TitleString = string.Join<char>(" ", jsonIntoObject.data.champion.title);
-                Title.Text = TitleString.ToUpper();
+                titleString = string.Join<char>(" ", jsonIntoObject.data.champion.title);
+                Title.Text = titleString.ToUpper();
 
                 Lore.Text = correctLore;
 
-                TagsString = string.Join<char>(" ", TagsString);
-                Tags.Text = TagsString.ToUpper();
+                tagsString = string.Join<char>(" ", tagsString);
+                Tags.Text = tagsString.ToUpper();
 
                 AttackVal.Text = jsonIntoObject.data.champion.info.attack.ToString();
                 DefenceVal.Text = jsonIntoObject.data.champion.info.defense.ToString();
@@ -147,11 +162,11 @@ namespace LeagueApp
         public void ProcessImage()
         {
             //Every image is specific to ChampionName
-            ChampionName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
+            championName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
             Image imgPhoto = new Image();
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + ChampionName + "_0.jpg");
+            bitmap.UriSource = new Uri("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + championName + "_0.jpg");
             bitmap.EndInit();
             ChampionImage2.Source = bitmap;
         }

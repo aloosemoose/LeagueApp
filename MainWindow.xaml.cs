@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace LeagueApp
 {
@@ -19,36 +20,92 @@ namespace LeagueApp
 
     public partial class MainWindow : Window
     {
-   
+        public string userChampionInput;
         public string ChampionInput;      
         public bool validInput;
+        public string ahriImage = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg";
 
         public MainWindow()
         {
             InitializeComponent();
             ProcessImage();
         }
-
+        
+        //User can input ChampionName using button or enter key
         public void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //Save the user input, check if it's valid by passing it through GetRquest(), open the window if true
-            //The Url is case sensitive e.g Aatrox, Ahri
+        {                   
             ChampionInput = UserInpput.Text;
+            ProcessInput();
+                          
+        }
 
-            if (ChampionInput.Length == 0)
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            
+            if (e.Key == Key.Return)
             {
-                ErrorAdvice();
+
+                ChampionInput = UserInpput.Text;
+                userChampionInput = UserInpput.Text;
+
+                ProcessInput();
+                
             }
-            else
-            {
-                ChampionInput = ChampionInput.ToLower();
-                ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
+        }
+        public void ProcessInput()
+        {
+            //The Url is case sensitive, some champion names have spaces and punctuation. Kha'Zix - "KhaZix", Miss Fortune - MissFortune
 
-                //Wukong's ID is "monkeyking" in API
-                if (ChampionInput == "Wukong")
+
+            if (PeskyChampions() == false)
+            {
+
+                if (ChampionInput.Contains(" "))
                 {
-                    ChampionInput = "MonkeyKing";
+                    string s = ChampionInput[0].ToString();
+                    string s1 = ChampionInput[ChampionInput.Length - 1].ToString();
+                    if (s == " " || s1 == " ")
+                    {
+                        ErrorAdvice();
+                    }
+                    else
+                    {
+                        ChampionInput = ChampionInput.Replace(" ", string.Empty);
+                        ValidateAndGo();
+                    }
+
                 }
+                else if (ChampionInput.Contains("'"))
+                {
+                    string s = ChampionInput[0].ToString();
+                    string s1 = ChampionInput[ChampionInput.Length - 1].ToString();
+
+                    if (s == "'" || s1 == "'")
+                    {
+                        ErrorAdvice();
+                    }
+                    else
+                    {
+                        ChampionInput = ChampionInput.ToLower();
+                        ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
+                        ChampionInput = ChampionInput.Replace("'", string.Empty);
+                        ValidateAndGo();
+                    }
+
+                }
+                else
+                {
+                    ChampionInput = ChampionInput.ToLower();
+                    ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
+                    ValidateAndGo();
+                }
+            }
+
+
+        }
+        public void ValidateAndGo()
+        {               
+
                 if (IsItValid() == false)
                 {
                     ErrorAdvice();
@@ -58,9 +115,7 @@ namespace LeagueApp
                     Window1 win2 = new Window1();
                     win2.Show();
                 }
-            }
-
-           
+            
         }
 
         public bool IsItValid()
@@ -74,24 +129,56 @@ namespace LeagueApp
             else
             {
                 return false;
-            }            
-        }
-
-        public void ProcessImage()
-        {
-            Image imgPhoto = new Image();
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg");
-            bitmap.EndInit();
-            Ahri.Source = bitmap;
+            }
         }
 
         public void ErrorAdvice()
         {
-            MessageBox.Show("You must input a valid champion name. Make sure not to include any spaces or punctuation; it is not case sensitive.");
+            MessageBox.Show("You must input a valid champion name. It is case sensitive, make sure to include the correct punctuation and spaces.");
         }
 
+        public void ProcessImage()
+        {
+            //Ahri was my first main :))
+            Image imgPhoto = new Image();
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(ahriImage);
+            bitmap.EndInit();
+            Ahri.Source = bitmap;
+        }
+
+        public bool PeskyChampions()
+        {
+            //Wukong's ID is "monkeyking" in API
+            //Nunu & Willump is named Nunu in the full json, but cannot be accessed using that name for some reason. Nor any reasonable variation of said name.
+
+            if (ChampionInput.Length == 0)
+            {
+                ErrorAdvice();
+                return true;
+            }
+            else if (ChampionInput == "Wukong")
+                {
+                    ChampionInput = "MonkeyKing";
+                    ValidateAndGo();
+                return true;
+                }
+            
+            else if (ChampionInput == "Nunu & Willump")
+            {
+                MessageBox.Show("This is the only champion that can't be accessed through this application. A window will open directing you to other resources.");
+                Process.Start(new ProcessStartInfo("https://leagueoflegends.fandom.com/wiki/Nunu/LoL") { UseShellExecute = true });
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+            
+
+        }
     }
 }
 

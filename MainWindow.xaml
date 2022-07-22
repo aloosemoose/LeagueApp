@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LeagueApp"
         mc:Ignorable="d"
-       Title="UserInputWindow" Height="500" Width="700" Background="White">
+       Title="UserInputWindow" Height="500" Width="750" Background="Black">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -60,7 +60,7 @@
         <TextBlock  Grid.Row="1" Grid.Column="3" Margin="64,13,64,7" FontSize="20" FontWeight="Bold" Background="{x:Null}" Foreground="White" Text="O F" Grid.ColumnSpan="2" />
 
 
-        <TextBox Grid.Column="1" Margin="0,24,10,0" Padding="20,5,0,0" Grid.Row="6" x:Name="UserInpput" Grid.ColumnSpan="2" Panel.ZIndex="1" FontWeight="Bold" BorderBrush="{x:Null}" Background="Black" Foreground="White" Opacity="0.5">
+        <TextBox Grid.Column="1" Margin="0,26,18,2" Padding="20,5,0,0" Grid.Row="6" x:Name="UserInpput" Grid.ColumnSpan="2" Panel.ZIndex="1" FontWeight="Bold" BorderBrush="{x:Null}" Background="Black" Foreground="White" Opacity="0.5" KeyDown="OnKeyDownHandler" >
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="20"/>
