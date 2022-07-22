@@ -54,7 +54,7 @@ namespace LeagueApp
         }
         public void ProcessInput()
         {
-            //The Url is case sensitive, some champion names have spaces and punctuation. Kha'Zix - "KhaZix", Miss Fortune - MissFortune
+            //The .json is case sensitive, some champion names have spaces and punctuation. Kha'Zix - "KhaZix", Miss Fortune - "MissFortune"
 
 
             if (PeskyChampions() == false)
@@ -95,8 +95,8 @@ namespace LeagueApp
                 }
                 else
                 {
-                    ChampionInput = ChampionInput.ToLower();
-                    ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
+                  ChampionInput = ChampionInput.ToLower();
+                  ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
                     ValidateAndGo();
                 }
             }
@@ -134,7 +134,7 @@ namespace LeagueApp
 
         public void ErrorAdvice()
         {
-            MessageBox.Show("You must input a valid champion name. It is case sensitive, make sure to include the correct punctuation and spaces.");
+            MessageBox.Show("You must input a valid champion name. The search is case sensitive for two part names, make sure to include the correct punctuation and spaces.");
         }
 
         public void ProcessImage()
@@ -151,7 +151,7 @@ namespace LeagueApp
         public bool PeskyChampions()
         {
             //Wukong's ID is "monkeyking" in API
-            //Nunu & Willump is named Nunu in the full json, but cannot be accessed using that name for some reason. Nor any reasonable variation of said name.
+            //Nunu & Willump 
 
             if (ChampionInput.Length == 0)
             {
@@ -167,8 +167,8 @@ namespace LeagueApp
             
             else if (ChampionInput == "Nunu & Willump")
             {
-                MessageBox.Show("This is the only champion that can't be accessed through this application. A window will open directing you to other resources.");
-                Process.Start(new ProcessStartInfo("https://leagueoflegends.fandom.com/wiki/Nunu/LoL") { UseShellExecute = true });
+                ChampionInput = "Nunu";
+                ValidateAndGo();
                 return true;
             }
             else

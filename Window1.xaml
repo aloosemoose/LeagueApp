@@ -56,10 +56,9 @@
 
         <Rectangle Grid.Row="6" Panel.ZIndex="0" Grid.Column="0" Height="2"  Grid.RowSpan="3" Margin="20,0,20,60" Grid.ColumnSpan="4" Fill="White"  />
 
-        <Image x:Name="ChampionImage2"  Grid.Row="0" Grid.Column="0" Panel.ZIndex="1" Grid.RowSpan="7" Margin="-248,-14,-264,7" Grid.ColumnSpan="7"   />
+        <Image x:Name="ChampionImage2"  Grid.Row="0" Grid.Column="0" Panel.ZIndex="1" Grid.RowSpan="7" Margin="-248,-14,-264,1" Grid.ColumnSpan="7"   />
 
-        <Rectangle  Grid.Row="0" Grid.Column="0" Panel.ZIndex="0" Grid.RowSpan="7" Margin="-248,-14,-264,7" Grid.ColumnSpan="7" Fill="Black"  />
-
+       
         <TextBlock  Text="C H A M P I O N  S T A T S" Grid.Row="3" Grid.ColumnSpan="6" Grid.Column="0" Margin="8,0,12,12" Panel.ZIndex="10" Foreground="White" FontSize="26" FontFamily="Segoe UI Emoji" FontWeight="Bold"  />
 
 

@@ -66,7 +66,7 @@ namespace LeagueApp
             }
             else
             {
-                championName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
+                championName = ((MainWindow)Application.Current.MainWindow).userChampionInput;
                 Process.Start(new ProcessStartInfo(GuideUrl + championName) { UseShellExecute = true });
             }
 
@@ -104,13 +104,19 @@ namespace LeagueApp
 
                 //Now setting all the variables
                 //MonkeyKing case
-                if(championName == "MonkeyKing")
-                {
-                    championName = "Wukong";
-                }
+
                 //Setting "Cvehampion" back to the ChampionName
                 incorrectLore = jsonIntoObject.data.champion.lore;
-                correctLore = incorrectLore.Replace("Champion", completeChampion);
+
+                if(championName == "Nunu")
+                {
+                    correctLore = incorrectLore.Replace("Champion", completeChampion);
+                }
+                else
+                {
+                    correctLore = incorrectLore.Replace("Champion", completeChampion);
+                }
+                
 
                 //Some tags have 2 elements so try catch for this 
                 tagsString = jsonIntoObject.data.champion.tags[0];
@@ -124,8 +130,16 @@ namespace LeagueApp
                 }
 
                 //The function adds a space between every char purely for aesthetics
-                completeChampion = string.Join<char>(" ", completeChampion);
-                Champion.Text = completeChampion.ToUpper();
+                if(completeChampion == "Nunu & Willump")
+                {
+                    Champion.Text = completeChampion.ToUpper();
+                }
+                else
+                {
+                    completeChampion = string.Join<char>(" ", completeChampion);
+                    Champion.Text = completeChampion.ToUpper();
+                }
+
           
                                
                 titleString = string.Join<char>(" ", jsonIntoObject.data.champion.title);
