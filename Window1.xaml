@@ -1,0 +1,115 @@
+﻿<Window x:Class="LeagueApp.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LeagueApp"
+        mc:Ignorable="d"
+            Title="MainWindow" Height="825" Width="613" Background="White">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width = "104"/>
+            <ColumnDefinition Width = "104"/>
+            <ColumnDefinition Width = "104"/>
+            <ColumnDefinition Width = "104"/>
+            <ColumnDefinition Width ="104"/>
+            <ColumnDefinition Width=" 40"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+
+
+
+
+
+
+
+        <Viewbox Grid.Row="3" Panel.ZIndex="6" Grid.Column="0" StretchDirection="DownOnly" Stretch="Uniform" Margin="-22,48,12,28"  Grid.RowSpan="4"  Grid.ColumnSpan="4"   >
+
+            <TextBlock TextWrapping ="Wrap" Panel.ZIndex="10" x:Name="Lore" MaxHeight="500" MaxWidth="300" Foreground="White" FontFamily="Segoe UI Semibold"/>
+
+        </Viewbox>
+
+        <Rectangle Grid.Row="3" Panel.ZIndex="5" Grid.Column="0"  Margin="-32,48,12,28"  Grid.RowSpan="4"  Grid.ColumnSpan="4" Opacity="0.5" Fill="Black" />
+
+
+        <TextBlock x:Name ="Champion" Text="Aatrox" Panel.ZIndex="1000" TextWrapping ="Wrap" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="6" Grid.Column="0" Margin="8,55,12,34" Foreground="White" FontSize="45" FontFamily="Lucida Sans" FontWeight="Bold"  />
+
+        <Rectangle Grid.Row="6" Panel.ZIndex="0" Grid.Column="0" Height="2"  Grid.RowSpan="3" Margin="20,0,20,60" Grid.ColumnSpan="4" Fill="White"  />
+
+        <Image x:Name="ChampionImage2"  Grid.Row="0" Grid.Column="0" Panel.ZIndex="1" Grid.RowSpan="7" Margin="-248,-14,-264,7" Grid.ColumnSpan="7"   />
+
+        <Rectangle  Grid.Row="0" Grid.Column="0" Panel.ZIndex="0" Grid.RowSpan="7" Margin="-248,-14,-264,7" Grid.ColumnSpan="7" Fill="Black"  />
+
+        <TextBlock  Text="C H A M P I O N  S T A T S" Grid.Row="3" Grid.ColumnSpan="6" Grid.Column="0" Margin="8,0,12,12" Panel.ZIndex="10" Foreground="White" FontSize="26" FontFamily="Segoe UI Emoji" FontWeight="Bold"  />
+
+
+        <Rectangle Grid.Row="13" Panel.ZIndex="0" Grid.Column="0" Margin="8,14,12,24" Fill="Black" Grid.RowSpan="2" Grid.ColumnSpan="7" OpacityMask="Black"/>
+
+        <Button x:Name="Link" Content="here." Panel.ZIndex="2" Grid.Column ="5" Grid.Row="13" Margin="24,36,40,0" BorderBrush="White" Background="White" FontWeight="Bold" FontSize="14" Height="30" VerticalAlignment="Top" Click="Link_Click" Grid.RowSpan="2" OpacityMask="Black"/>
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" Grid.Row="13" Grid.Column="0"   Grid.RowSpan="2" Margin="12,18,17,28" Grid.ColumnSpan="7" Foreground="Black" FontWeight="Normal" Background="White" Padding="24,23.5,20,0" ScrollViewer.CanContentScroll="True" FontSize="14" Grid.IsSharedSizeScope="True"
+        Text ="       You can access further resources, full guides and rune combinations" OpacityMask="Black"     />
+
+        <TextBlock x:Name="Title" Text="T H E  D A R K E N  B L A D E" Panel.ZIndex="1" Grid.Row="7" Grid.ColumnSpan="6" Grid.Column="0"  Foreground="White" FontSize="24" FontFamily="Segoe UI" FontWeight="Bold" HorizontalAlignment="Left" Width="500" VerticalAlignment="Center" Margin="20,0,0,0"  />
+        <Rectangle Grid.Row="7" Margin="-9,5,26,0"  Panel.ZIndex="0" Grid.ColumnSpan="7" Grid.Column="0" Fill="Black"/>
+        <Rectangle Grid.Row="8" Margin="-20,8,77,26"  Panel.ZIndex="0" Grid.ColumnSpan="5" Grid.Column="0" Fill="Black"/>
+
+        <TextBlock x:Name="Tags" Text="F I G H T E R  -  T A N K" Panel.ZIndex="1" Grid.Row="8" Margin="20,5,0,0" Grid.ColumnSpan="5" Grid.Column="0"  Foreground="White" FontSize="20"  FontFamily="Segoe UI" FontWeight="Normal" HorizontalAlignment="Left" Width="405" VerticalAlignment="Top"  />
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1"  Text="These next statistics give a useful rating out of 10 for the champion's relative strength in each category." Grid.Row="11"  Grid.ColumnSpan="6" Margin="0,10,79,0" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI Semibold" HorizontalAlignment="Right" Width="466" VerticalAlignment="Top" />
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="Attack" Text ="A T T A C K" Grid.Row="12" Grid.Column="0"  Grid.ColumnSpan="3" Margin="20,4,20,12" Foreground="Black" FontWeight="Bold" LineStackingStrategy="MaxHeight" FontSize="16" FontFamily="Segoe UI" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="Defence" Text ="D E F E N S E" Grid.Row="12" Grid.Column="0"  Grid.ColumnSpan="3" Margin="20,32,20,38" Foreground="Black" FontWeight="Bold" FontFamily="Segoe UI" FontSize="16" Grid.RowSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="Magic" Text ="M A G I C" Grid.Row="12" Grid.Column="3"  Grid.ColumnSpan="3" Margin="89,4,15,12" Foreground="Black" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="Difficulty" Text ="D I F F I C U L T Y" Grid.Row="12" Grid.Column="3"  Grid.ColumnSpan="3" Margin="89,34,15,37" Foreground="Black" FontWeight="Bold" FontFamily="Segoe UI" FontSize="16" OpacityMask="White" Grid.RowSpan="2" />
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="DifficultyVal" Text ="10" Grid.Row="12" Grid.Column="5"  Margin="73,34,0,2" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Left" OpacityMask="White" Width="54" Grid.ColumnSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="AttackVal" Text ="10" Grid.Row="12" Grid.Column="2"  Margin="0,4,88,30" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Right" Width="42" Grid.ColumnSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="MagicVal" Text ="10" Grid.Row="12" Grid.Column="2"  Margin="0,32,88,2" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Right" Width="42" Grid.ColumnSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="DefenceVal" Text ="10" Grid.Row="12" Grid.Column="5"  Margin="0,4,25,32" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Right" Width="46" Grid.ColumnSpan="2" />
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="hitPoints" Text ="H I T P O I N T S" Grid.Row="9" Grid.Column="3"  Grid.ColumnSpan="3" Margin="90,18,14,53" Foreground="Black" FontWeight="Bold" LineStackingStrategy="MaxHeight" FontSize="16" FontFamily="Segoe UI" Grid.RowSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="manaPoints" Text ="M A N A P O I N T S" Grid.Row="9" Grid.Column="3"  Grid.ColumnSpan="3" Margin="90,48,14,23" Foreground="Black" FontWeight="Bold" FontFamily="Segoe UI" FontSize="16" Grid.RowSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="moveSpeed" Text ="M O V E S P E E D" Grid.Row="10" Grid.Column="3"  Grid.ColumnSpan="3" Margin="90,20,14,52" Foreground="Black" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI" Grid.RowSpan="2" />
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="hitPointsVal" Text ="10" Grid.Row="9" Grid.Column="5"  Margin="0,20,21,14" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Right" Width="50" Grid.ColumnSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="manaPointsVal" Text ="10" Grid.Row="9" Grid.Column="5"  Margin="0,49,21,39" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Right" Width="50" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="moveSpeedVal" Text ="10" Grid.Row="10" Grid.Column="5"  Margin="73,19,0,17" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Left" Width="50" Grid.ColumnSpan="2" />
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="armor" Text ="A R M O R" Grid.Row="9"  Grid.ColumnSpan="3" Margin="20,20,20,52" Foreground="Black" FontWeight="Bold" LineStackingStrategy="MaxHeight" FontSize="16" FontFamily="Segoe UI" Grid.RowSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="attackRange" Text ="A T K  R A N G E" Grid.Row="9"  Grid.ColumnSpan="3" Margin="20,48,20,22" Foreground="Black" FontWeight="Bold" FontFamily="Segoe UI" FontSize="16" Grid.RowSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="attackSpeed" Text ="A T K  S P E E D" Grid.Row="10"  Grid.ColumnSpan="3" Margin="20,20,20,52" Foreground="Black" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI" Grid.RowSpan="2" />
+
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="armorVal" Text ="10" Grid.Row="9" Grid.Column="2"  Margin="76,0,0,0" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Left" Width="34" VerticalAlignment="Center" Grid.ColumnSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="attackRangeVal" Text ="10" Grid.Row="9" Grid.Column="2"  Margin="0,48,98,44" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Right" Grid.RowSpan="2" Width="34" Grid.ColumnSpan="2" />
+        <TextBlock TextWrapping ="Wrap" Panel.ZIndex="1" x:Name="attackSpeedVal" Text ="10" Grid.Row="10" Grid.Column="2"  Margin="76,20,0,12" Foreground="Black" FontWeight="Normal" FontFamily="Segoe UI" FontSize="16" HorizontalAlignment="Left" Width="34" Grid.ColumnSpan="2" />
+
+
+        <TextBlock x:Name="Tags_Copy" Text="B A S E  S T A T I S T I C S" Panel.ZIndex="1" Grid.Row="8" Margin="20,43,0,0" Grid.ColumnSpan="5" Grid.Column="0"  Foreground="Black" FontSize="18"  FontFamily="Segoe UI" FontWeight="Bold" HorizontalAlignment="Left" Width="405" VerticalAlignment="Top" Grid.RowSpan="2"  />
+        <Rectangle Grid.Row="11" Margin="77,33,12,18"  Panel.ZIndex="0" Grid.ColumnSpan="6" Grid.Column="1" Fill="Black"/>
+        <Rectangle Grid.Row="8" Margin="0,54,12,53"  Panel.ZIndex="0" Grid.ColumnSpan="4" Grid.Column="3" Fill="Black" Grid.RowSpan="2"/>
+
+
+
+    </Grid>
+</Window>
