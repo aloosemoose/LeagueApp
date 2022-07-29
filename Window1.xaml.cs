@@ -46,8 +46,9 @@ namespace LeagueApp
 
         public string titleString;
 
-        public Window1()
-        {            
+        public Window1(string userIn)
+        {
+            championName = userIn;
             InitializeComponent();
             ProcessImage();
             GetRequest();
@@ -58,7 +59,7 @@ namespace LeagueApp
         {
             completeChampion = ((MainWindow)Application.Current.MainWindow).userChampionInput;
 
-            //All links are specific to ChampionName except strings containing " " as the url doesn't autocomplete when accessed
+            //All links are specific to ChampionName except strings containing " " as the url doesn't autocomplete when these are accessed
 
             if (completeChampion.Contains(" "))
             {
@@ -66,7 +67,7 @@ namespace LeagueApp
             }
             else
             {
-                championName = ((MainWindow)Application.Current.MainWindow).userChampionInput;
+                completeChampion = ((MainWindow)Application.Current.MainWindow).userChampionInput;
                 Process.Start(new ProcessStartInfo(GuideUrl + championName) { UseShellExecute = true });
             }
 
@@ -76,7 +77,7 @@ namespace LeagueApp
         public bool GetRequest()
         {
             //The get request for the json specific to ChampionName
-
+            //Variables from other windows can be called in this way
             championName = ((MainWindow)Application.Current.MainWindow).ChampionInput;
             completeChampion = ((MainWindow)Application.Current.MainWindow).userChampionInput;
 
@@ -96,21 +97,25 @@ namespace LeagueApp
                 var statusCode = response.StatusCode.ToString();
                 apiResponseAsJsonString = response.Content;
 
-                //To use the same object for every champion ChampionName is set to just "champion"
+                //To use the same object for every champion the ChampionName is set to just "champion"
                 fixString = apiResponseAsJsonString;
                 var result = fixString.Replace(championName, "Champion");
 
                 ChampionObject.Root jsonIntoObject = JsonConvert.DeserializeObject<ChampionObject.Root>(result);
 
-                //Now setting all the variables
-                //MonkeyKing case
+                //***Setting all of the variables to show***
 
-                //Setting "Cvehampion" back to the ChampionName
+                //Setting "Champion" back to the ChampionName so that the lore is correct
+                //Some of the lore descriptions include the second half of the name within the text, some don't
                 incorrectLore = jsonIntoObject.data.champion.lore;
 
                 if(championName == "Nunu")
                 {
-                    correctLore = incorrectLore.Replace("Champion", completeChampion);
+                    correctLore = incorrectLore.Replace("Champion", "Nunu");
+                }
+                else if(championName == "Renata")
+                {
+                    correctLore = incorrectLore.Replace("Champion", championName);
                 }
                 else
                 {
@@ -129,8 +134,12 @@ namespace LeagueApp
 
                 }
 
-                //The function adds a space between every char purely for aesthetics
-                if(completeChampion == "Nunu & Willump")
+                //This function adds a " " between every char purely for aesthetics
+                titleString = string.Join<char>(" ", jsonIntoObject.data.champion.title);
+                Title.Text = titleString.ToUpper(); 
+
+                //unfortunately Nunu & Willump is the only name too long to fit using this func :')
+                if (completeChampion == "Nunu & Willump")
                 {
                     Champion.Text = completeChampion.ToUpper();
                 }
@@ -139,11 +148,7 @@ namespace LeagueApp
                     completeChampion = string.Join<char>(" ", completeChampion);
                     Champion.Text = completeChampion.ToUpper();
                 }
-
-          
-                               
-                titleString = string.Join<char>(" ", jsonIntoObject.data.champion.title);
-                Title.Text = titleString.ToUpper();
+                   
 
                 Lore.Text = correctLore;
 

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LeagueApp"
         mc:Ignorable="d"
-       Title="UserInputWindow" Height="500" Width="750" Background="Black">
+        
+       Title="LoL Find Any Champions Stats"  Height="500" Width="750" Background="Black"  ResizeMode="NoResize" >
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -71,5 +73,6 @@
 
 
     </Grid>
+    
 </Window>
   

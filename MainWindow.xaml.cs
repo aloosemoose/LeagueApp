@@ -13,13 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using RestSharp;
+using Newtonsoft.Json;
+
 
 namespace LeagueApp
 {
-    
-
+   
     public partial class MainWindow : Window
     {
+        public string BaseUrl = "https://ddragon.leagueoflegends.com";
+        public int errorMessage = 0;
         public string userChampionInput;
         public string ChampionInput;      
         public bool validInput;
@@ -27,13 +31,18 @@ namespace LeagueApp
 
         public MainWindow()
         {
-            InitializeComponent();
+          
+            InitializeComponent();         
             ProcessImage();
         }
+ 
         
-        //User can input ChampionName using button or enter key
+        //User can input ChampionInput using button or enter key
+
         public void Button_Click(object sender, RoutedEventArgs e)
-        {                   
+        {
+
+            userChampionInput = UserInpput.Text;
             ChampionInput = UserInpput.Text;
             ProcessInput();
                           
@@ -47,15 +56,14 @@ namespace LeagueApp
 
                 ChampionInput = UserInpput.Text;
                 userChampionInput = UserInpput.Text;
-
                 ProcessInput();
                 
             }
         }
         public void ProcessInput()
         {
-            //The .json is case sensitive, some champion names have spaces and punctuation. Kha'Zix - "KhaZix", Miss Fortune - "MissFortune"
-
+            errorMessage = 0;
+            //The .json is case sensitive, some champion names have spaces and punctuation. Kha'Zix = "KhaZix" but also some like Rek'Sai = "Reksai" (usually the older 2014 champions), Miss Fortune - "MissFortune".
 
             if (PeskyChampions() == false)
             {
@@ -64,8 +72,21 @@ namespace LeagueApp
                 {
                     string s = ChampionInput[0].ToString();
                     string s1 = ChampionInput[ChampionInput.Length - 1].ToString();
-                    if (s == " " || s1 == " ")
+                   
+                    //Removing the instances of " " and "'" is useful to call the API, but meant initially the input accepted stuff like "Z     ed", so added some conditions to check
+                    // for this kind of scenario
+                    char ch = ' ';
+                    int freq = ChampionInput.Split(ch).Length - 1;
+    
+                    int countCaps = 0;                   
+                    for (int i = 0; i < ChampionInput.Length; i++)
                     {
+                        if (char.IsUpper(ChampionInput[i])) countCaps++;
+                    }
+
+                    if (s == " " || s1 == " " || (freq >= 1 && countCaps == 1) || (freq > 1 && countCaps >= 2))
+                    {
+                        errorMessage = 2;
                         ErrorAdvice();
                     }
                     else
@@ -79,25 +100,34 @@ namespace LeagueApp
                 {
                     string s = ChampionInput[0].ToString();
                     string s1 = ChampionInput[ChampionInput.Length - 1].ToString();
+                   
+                    string ch = "'";
+                    int freq = ChampionInput.Split(ch.ToCharArray()).Length - 1;
 
-                    if (s == "'" || s1 == "'")
+                    if (s == "'" || s1 == "'" || freq > 1)
                     {
+                        errorMessage = 3;
                         ErrorAdvice();
                     }
                     else
                     {
-                        ChampionInput = ChampionInput.ToLower();
-                        ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
                         ChampionInput = ChampionInput.Replace("'", string.Empty);
+                        
+                        IsItValid();
+
+                        if(IsItValid() == false)
+                        {
+                            ChampionInput = ChampionInput.ToLower();
+                            ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
+                        }
                         ValidateAndGo();
+                        
                     }
 
                 }
                 else
                 {
-                  ChampionInput = ChampionInput.ToLower();
-                  ChampionInput = char.ToUpper(ChampionInput[0]) + ChampionInput.Substring(1);
-                    ValidateAndGo();
+                  ValidateAndGo();
                 }
             }
 
@@ -105,14 +135,16 @@ namespace LeagueApp
         }
         public void ValidateAndGo()
         {               
-
+            
                 if (IsItValid() == false)
                 {
-                    ErrorAdvice();
+                errorMessage = 1;
+                ErrorAdvice();
                 }
                 else
                 {
-                    Window1 win2 = new Window1();
+                    Window1 win2 = new Window1(ChampionInput);
+               // win2.championName = ChampionInput;
                     win2.Show();
                 }
             
@@ -120,26 +152,35 @@ namespace LeagueApp
 
         public bool IsItValid()
         {
-            Window1 win2 = new Window1();
+            //the easiest way to validate the input is to pass it through the GetRequest
+            Window1 win2 = new Window1(ChampionInput);
+
 
             if (win2.GetRequest())
             {
+                win2.Close();
                 return true;
             }
             else
             {
+                win2.Close();
                 return false;
             }
         }
 
         public void ErrorAdvice()
         {
-            MessageBox.Show("You must input a valid champion name. The search is case sensitive for two part names, make sure to include the correct punctuation and spaces.");
+            
+            ErrorWindow error = new ErrorWindow(errorMessage);
+            error.Show();
+            //search is mostly case insensitive but better to advise otherwise as this is not universal for all champs
+            //MessageBox.Show("You must input a valid champion name. The search is case sensitive for two part names, make sure to include the correct punctuation and spaces.");
         }
 
         public void ProcessImage()
         {
             //Ahri was my first main :))
+
             Image imgPhoto = new Image();
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
@@ -150,24 +191,34 @@ namespace LeagueApp
 
         public bool PeskyChampions()
         {
+            //Special case champions which have no rhyme or reason to them, their in-game and known by name is not the same in the API
             //Wukong's ID is "monkeyking" in API
-            //Nunu & Willump 
+            //Nunu & Willump is Nunu
+            //Renata Glasc is Renata
 
             if (ChampionInput.Length == 0)
             {
+                errorMessage = 4;
                 ErrorAdvice();
                 return true;
             }
             else if (ChampionInput == "Wukong")
-                {
-                    ChampionInput = "MonkeyKing";
-                    ValidateAndGo();
-                return true;
-                }
-            
-            else if (ChampionInput == "Nunu & Willump")
             {
+                 ChampionInput = "MonkeyKing";
+                 ValidateAndGo();
+                 return true;
+            }
+            
+            else if (ChampionInput == "Nunu & Willump" || ChampionInput == "Nunu")
+            {
+                userChampionInput = "Nunu & Willump";
                 ChampionInput = "Nunu";
+                ValidateAndGo();
+                return true;
+            }
+            else if(ChampionInput == "Renata Glasc")
+            {
+                ChampionInput = "Renata";
                 ValidateAndGo();
                 return true;
             }
@@ -179,6 +230,8 @@ namespace LeagueApp
             
 
         }
+  
+            
     }
 }
 
